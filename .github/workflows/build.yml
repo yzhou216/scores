@@ -1,0 +1,23 @@
+name: Compile to PDF and MIDI
+on:
+  push:
+  pull_request:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - uses: wimpysworld/nothing-but-nix@main
+      - name: Install Nix
+        uses: cachix/install-nix-action@master
+        with:
+          extra_nix_config: |
+            access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
+      - run: nix develop --command make --keep-going
+      - name: Archive distributables
+        run: tar -cf dist.tar dist
+      - name: Upload artifacts
+        uses: actions/upload-artifact@main
+        with:
+          name: dist.tar
+          path: dist.tar
