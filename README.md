@@ -1,3 +1,8 @@
+# Download
+
+You can download the latest build artifact
+[here](https://nightly.link/yzhou216/scores/workflows/build/master/dist.tar.zip).
+
 # License
 
 Licensed under [0BSD](https://spdx.org/licenses/0BSD.html) OR
