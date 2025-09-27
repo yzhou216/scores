@@ -25,7 +25,7 @@ melody = \relative c'' {
   r r8 a8 b a b d | b a a4 r8 b4 a8~ | 2 r8 a a b | fis' e e d e b b4 |
   r b8 a b a b d | b a a4 r8 b16 (cis e8) a,~ |
   (a4. \slashedGrace b8 cis~ 4. \slashedGrace d8 e~ |
-  4. \slashedGrace g8 a~ a g fis e~ | 4) g fis8 d4 e8~ |
+  4. \slashedGrace g8 a~ a g fis e~ \bar "||" 4) g fis8 d4 e8~ |
   8 fis4. cis8 (d cis b) | r8 b g'4 fis8 d4 e8~ | 4 r4 r2 |
   r8 b g'4 fis8 d4 e8~ | 8 cis4 e8~ e cis4 d8~ | 8 b4 d8~ 8 b4 cis8~ |
   4 r cis8 (d cis b) | r4 g' fis8 d4 e8~ | 8 fis4. r2 |
@@ -84,17 +84,39 @@ melody = \relative c'' {
 %  }
 %  <a c'>8 f <a c'>8 f  | <b d'> g <b d'> g | <c' e g>1 \bar "||" <c' e g>1 \fine
 %}
-%
-%lower = {
-%  \clef bass
-%  \mf
-%  _\markup { \italic "m.s. 8va bassa tempre, con Ped." }
-%  \repeat unfold 5 { c2. e4 | f2. f4 }
-%  c2. e4 | f1
-%  f4. 8 | e4. 8 | d4. 8 | c4. 8 | g2 2 | 1
-%  \repeat unfold 3 { e2 g4. 8 | c2 e }
-%  e2 g4. 8 | c c' d c' a, c' b, c' | c1 \fine
-%}
+
+lower = \relative c, {
+  \global
+  \clef bass
+  \key b \minor
+  <e e'>4 4 d'8 8 r e~ | 8 8 r 8~ 8 8 8 8 d
+  <e, e'>4 4 d'8 8 r e~ | 8 4 8~ 4. 8
+  e,8 8 fis g b8 8 a fis |
+  \repeat unfold 5 { a8 8 fis e a8 8 fis8 8 | e8 8 fis g g8 8 a fis }
+  \repeat unfold 2 { a8 8 fis e a8 8 fis8 8 | e8 8 fis g b8 8 a fis }
+  a8 8 fis e a8 8 fis8 8 |
+  \repeat unfold 8 { a8 8 fis e a8 8 fis8 8 | e8 8 fis g b8 8 a fis }
+  a8 8 fis e a8 8 fis8 8 |
+  \repeat unfold 4 { a8 8 fis e a8 8 fis8 8 | e8 8 fis g b8 8 a fis }
+  a8 8 fis e a8 8 8 r |
+  e r e eis fis r fis b | a r a fis a ais b fis |
+  e r e eis fis r fis g | a r a fis a fis a r |
+  e r e eis fis r fis b | a r a fis a ais b fis |
+  e r e eis fis r fis b | a8 8 fis e a8 8 fis8 8 |
+  a8 8 fis e a8 8 fis f | e8 8 fis g b8 8 a fis |
+  \repeat unfold 6 { a8 8 fis e a8 8 fis8 8 | e8 8 fis g b8 8 a fis }
+  a8 8 fis e a8 8 fis8 8 | e8 8 fis g r2 | r1 |
+  \repeat unfold 8 { e8 8 fis g b8 8 a fis | a8 8 fis e a8 8 fis8 8 }
+  a8 8 fis e a8 8 fis e | e8 r e eis fis r fis b |
+  a r a fis a ais b fis | e r e eis fis r fis b |
+  a r a fis a fis a r | e r e eis fis r fis b |
+  a r a fis a ais b fis | e r e eis fis r fis b |
+  a8 8 fis e a8 8 fis8 8 | a8 8 fis e a8 8 fis8 8 |
+  \repeat unfold 4 { e8 8 fis g b8 8 a fis | a8 8 fis e a8 8 fis8 8 }
+  a8 8 fis e a8 8 fis e | e8 8 fis g b8 8 a fis |
+  \repeat unfold 4 { a8 8 fis e a8 8 fis8 8 | e8 8 fis g b8 8 a fis }
+  a8 8 fis e a8 8 fis8 8 | \repeat unfold 2 { a8 8 fis e } | r1 |
+}
 
                     % 1.3.5.9
 chExceptionMusic = { <c e g d'>1-\markup { \super "add9" } }
@@ -163,10 +185,10 @@ text = \lyricmode {
     \new ChordNames \chordNames
     \new Staff \context Voice = "vocal" \melody
     \new Lyrics \lyricsto "vocal" \text
-    %\new PianoStaff <<
-    %  \new Staff = "upper" \upper
-    %  \new Staff = "lower" \lower
-    %>>
+    \new PianoStaff <<
+      %\new Staff = "upper" \upper
+      \new Staff = "lower" \lower
+    >>
   >>
   \layout { }
   \midi { }
