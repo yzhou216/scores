@@ -105,7 +105,7 @@ chordNames = \chordmode {
     (sequential-music-to-chord-exceptions chExceptionMusic #t)
     ignatzekExceptions)
 
-  \repeat unfold 2 { e2:min d4. a8:maj9^7/e s2 | a/e }
+  \repeat unfold 2 { e2:min d4. a8:maj9^7/e | s4. | a8/e s2 }
   \repeat unfold 21 { e:min b4.:min7 a2:maj9^7 | a8 s2 }
   e:min d4./fis a8 | s1
   e2:min d4./fis a8:maj9^7 | s1
