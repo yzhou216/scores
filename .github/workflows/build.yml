@@ -15,9 +15,10 @@ jobs:
             access-tokens = github.com=${{ secrets.GITHUB_TOKEN }}
       - run: nix build .#default
       - name: Archive distributables
-        run: tar -cf dist.tar result/dist
+        run: tar -acf dist.tar.zst result/dist
       - name: Upload artifacts
         uses: actions/upload-artifact@main
         with:
-          name: dist.tar
-          path: dist.tar
+          archive: false
+          name: dist.tar.zst
+          path: dist.tar.zst

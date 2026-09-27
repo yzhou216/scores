@@ -1,7 +1,7 @@
 # Download
 
 You can download the latest build artifact
-[here](https://nightly.link/yzhou216/scores/workflows/build/master/dist.tar.zip).
+[here](https://nightly.link/yzhou216/scores/workflows/build/master/dist.tar.zst).
 
 # License
 
