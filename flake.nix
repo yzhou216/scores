@@ -23,11 +23,23 @@
           mkShell
           python3Packages
           stdenvNoCC
+          texliveBasic
           wildmidi
           ;
         fontconfigFile = makeFontsConf {
           fontDirectories = [ gyre-fonts ];
         };
+        # Just enough LaTeX for src/manuscript, kept explicit so the
+        # sandboxed build stays offline
+        texlive = texliveBasic.withPackages (
+          ps: with ps; [
+            geometry
+            hyperref
+            pgf
+            tex-gyre
+            xcolor
+          ]
+        );
       in
       {
         devShells.default = mkShell {
@@ -35,6 +47,7 @@
             gnumake
             lilypond-unstable-with-fonts
             python3Packages.python-ly
+            texlive
             wildmidi
           ];
 
@@ -47,12 +60,16 @@
 
           strictDeps = true;
 
-          nativeBuildInputs = [ lilypond-unstable-with-fonts ];
+          nativeBuildInputs = [
+            lilypond-unstable-with-fonts
+            texlive
+          ];
 
           env.FONTCONFIG_FILE = fontconfigFile;
 
           preBuild = ''
             export XDG_CACHE_HOME="$(mktemp -d)"
+            export TEXMFVAR="$(mktemp -d)"
           '';
 
           installPhase = ''
