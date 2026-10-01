@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2025 Yiyu Zhou <yiyu@yiyuzhou.io>
+
+SPDX-License-Identifier: 0BSD OR CC0-1.0
+-->
+
 # Download
 
 You can download the latest build artifact
@@ -8,6 +14,11 @@ You can download the latest build artifact
 Licensed under [0BSD](https://spdx.org/licenses/0BSD.html) OR
 [CC0-1.0](https://creativecommons.org/public-domain/cc0/), at your
 option.
+
+This repository follows the [REUSE](https://reuse.software)
+specification: every file carries an SPDX header, and the full license
+texts live in [`LICENSES/`](LICENSES).  Run `nix flake check`, or
+`reuse lint` from inside the development shell, to verify.
 
 Please note that some scores are neither in the public domain nor
 owned by me.  These materials are provided strictly for educational

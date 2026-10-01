@@ -1,3 +1,7 @@
+%% SPDX-FileCopyrightText: 2026 Yiyu Zhou <yiyu@yiyuzhou.io>
+%%
+%% SPDX-License-Identifier: 0BSD OR CC0-1.0
+
 \version "2.25.27"
 
 %% One \book per key, so each signature lands in its own cropped PDF for

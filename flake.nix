@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025-2026 Yiyu Zhou <yiyu@yiyuzhou.io>
+#
+# SPDX-License-Identifier: 0BSD OR CC0-1.0
+
 {
   description = "Write and compile sheet music with LilyPond";
 
@@ -22,6 +26,8 @@
           makeFontsConf
           mkShell
           python3Packages
+          reuse
+          runCommand
           stdenvNoCC
           texliveBasic
           wildmidi
@@ -47,12 +53,20 @@
             gnumake
             lilypond-unstable-with-fonts
             python3Packages.python-ly
+            reuse
             texlive
             wildmidi
           ];
 
           env.FONTCONFIG_FILE = fontconfigFile;
         };
+
+        # Every file carries an SPDX header naming its copyright and
+        # license, and every license so named has a text under LICENSES
+        checks.reuse = runCommand "check-reuse" { nativeBuildInputs = [ reuse ]; } ''
+          reuse --root ${./.} lint
+          touch "$out"
+        '';
 
         packages.default = stdenvNoCC.mkDerivation {
           name = "scores";

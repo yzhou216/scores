@@ -1,3 +1,7 @@
+%% SPDX-FileCopyrightText: 2025 Yiyu Zhou <yiyu@yiyuzhou.io>
+%%
+%% SPDX-License-Identifier: 0BSD OR CC0-1.0
+
 \version "2.25.27"
 
 \header {

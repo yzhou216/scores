@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2025-2026 Yiyu Zhou <yiyu@yiyuzhou.io>
+#
+# SPDX-License-Identifier: 0BSD OR CC0-1.0
+
 SRC_DIR := src
 DIST_DIR := dist
 BUILD_DIR := build
