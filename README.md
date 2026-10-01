@@ -12,8 +12,8 @@ You can download the latest build artifact
 # License
 
 Licensed under [0BSD](https://spdx.org/licenses/0BSD.html) OR
-[CC0-1.0](https://creativecommons.org/public-domain/cc0/), at your
-option.
+[CC0-1.0](https://creativecommons.org/publicdomain/zero/1.0/legalcode),
+at your option.
 
 This repository follows the [REUSE](https://reuse.software)
 specification: every file carries an SPDX header, and the full license
