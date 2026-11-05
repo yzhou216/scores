@@ -7,94 +7,86 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs?ref=master";
-    flake-utils.url = "github:numtide/flake-utils";
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    {
-      nixpkgs,
-      flake-utils,
-      ...
-    }:
-    flake-utils.lib.eachDefaultSystem (
-      system:
-      let
-        inherit (import nixpkgs { inherit system; })
-          gnumake
-          gyre-fonts
-          lilypond-unstable-with-fonts
-          makeFontsConf
-          mkShell
-          python3Packages
-          reuse
-          runCommand
-          stdenvNoCC
-          texliveBasic
-          wildmidi
-          ;
-        fontconfigFile = makeFontsConf {
-          fontDirectories = [ gyre-fonts ];
-        };
-        # Just enough LaTeX for src/manuscript, kept explicit so the
-        # sandboxed build stays offline
-        texlive = texliveBasic.withPackages (
-          ps: with ps; [
-            geometry
-            hyperref
-            pgf
-            tex-gyre
-            xcolor
-          ]
-        );
-      in
-      {
-        devShells.default = mkShell {
-          packages = [
-            gnumake
-            lilypond-unstable-with-fonts
-            python3Packages.python-ly
-            reuse
-            texlive
-            wildmidi
-          ];
+    inputs@{ flake-parts, nixpkgs, ... }:
+    flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = nixpkgs.lib.platforms.all;
 
-          env.FONTCONFIG_FILE = fontconfigFile;
-        };
+      perSystem =
+        { system, pkgs, ... }:
+        with pkgs;
+        let
+          fontconfigFile = makeFontsConf {
+            fontDirectories = [ gyre-fonts ];
+          };
+          # Just enough LaTeX for src/manuscript, kept explicit so the
+          # sandboxed build stays offline
+          texlive = texliveBasic.withPackages (
+            ps: with ps; [
+              geometry
+              hyperref
+              pgf
+              tex-gyre
+              xcolor
+            ]
+          );
+        in
+        {
+          _module.args.pkgs = import nixpkgs { inherit system; };
 
-        # Every file carries an SPDX header naming its copyright and
-        # license, and every license so named has a text under LICENSES
-        checks.reuse = runCommand "check-reuse" { nativeBuildInputs = [ reuse ]; } ''
-          reuse --root ${./.} lint
-          touch "$out"
-        '';
+          devShells.default = mkShell {
+            packages = [
+              gnumake
+              lilypond-unstable-with-fonts
+              python3Packages.python-ly
+              reuse
+              texlive
+              wildmidi
+            ];
 
-        packages.default = stdenvNoCC.mkDerivation {
-          name = "scores";
-          src = ./.;
+            env.FONTCONFIG_FILE = fontconfigFile;
+          };
 
-          strictDeps = true;
-
-          nativeBuildInputs = [
-            lilypond-unstable-with-fonts
-            texlive
-          ];
-
-          env.FONTCONFIG_FILE = fontconfigFile;
-
-          preBuild = ''
-            export XDG_CACHE_HOME="$(mktemp -d)"
-            export TEXMFVAR="$(mktemp -d)"
+          # Every file carries an SPDX header naming its copyright and
+          # license, and every license so named has a text under LICENSES
+          checks.reuse = runCommand "check-reuse" { nativeBuildInputs = [ reuse ]; } ''
+            reuse --root ${./.} lint
+            touch "$out"
           '';
 
-          installPhase = ''
-            runHook preInstall
+          packages.default = stdenvNoCC.mkDerivation {
+            name = "scores";
+            src = ./.;
 
-            mkdir "$out"
-            cp --recursive dist "$_"
+            strictDeps = true;
 
-            runHook postInstall
-          '';
+            nativeBuildInputs = [
+              lilypond-unstable-with-fonts
+              texlive
+            ];
+
+            env.FONTCONFIG_FILE = fontconfigFile;
+
+            preBuild = ''
+              export XDG_CACHE_HOME="$(mktemp -d)"
+              export TEXMFVAR="$(mktemp -d)"
+            '';
+
+            installPhase = ''
+              runHook preInstall
+
+              mkdir "$out"
+              cp --recursive dist "$_"
+
+              runHook postInstall
+            '';
+          };
         };
-      }
-    );
+    };
 }
